@@ -1,114 +1,104 @@
-# mycite_project/boot.py
+# Copyright [2025] [Dylan Montgomery]
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+# mycite_project/main.py
 # AUTHOR:   Dylan Montgomery
-# MODIFIED: 2025-05-18
-# VERSION:  6.02
-# PURPOSE:  Read the world.bin file to initialize the main program and socket information etc. 
-# NOTE:     HERE
-    # NIMM args are folllowed by: NULL - IDK
-        # Fetch     Navigate                (cd)
-        # Decode    Investigate (Inspect)   (ls)
-        # Execute   Mediate                 (RUN)
-        # Store     Manipulate              (update from IRIS output)
-##############
-####
-##
-#
-
-def bootLoad(RunTimeHMS): # capture, conventGrps, contextLgr, conventMS
-    # 1) Load and unpack bits
-    with open('world.bin', 'rb') as f:
-            raw = f.read()
-    for byte in raw:
-        for bitpos in range(7, -1, -1):
-            RunTimeHMS.capture.append((byte >> bitpos) & 1)
-    
-    # 2) Prepare the groups and state
-    conventMS   = {grp: []   for grp in conventGrps} # Maybe create global task for schema
-    contextLgr  = {grp: False for grp in conventGrps} # Possibly start here for first IRIS
-    
-    # 3) Parse the capture into groups
-    for grp in conventGrps:
-        if not contextLgr[grp]:
-            for i # Condition to meet to denote how many iteration until indexA has finished
-                #Logic to figure out later here and assign 'length' a value
-            #length = determine_length_for(grp)
-            conventMS[grp]  = RunTimeHMS.capture[:length]
-            contextLgr[grp] = True
-
-#
-##
-####
-################
-####
-##
-#
-
+# MODIFIED: 2025-05-25
+# VERSION:  6.04.01
+# PURPOSE:  HERE
+# Notes:    HERE
 import threading
-from queue import Queue
+import time
+import pygame
+from collections    import defaultdict
+from boot           import bootLoad
+from boot           import bootStrap
+################################################################################################################################################################################################################################################################
+################
+####
+##
+#
+class AppState:
+    def __init__(self):
+        self.capture = []
+        self.conventGrps = {"indexA": [], "indexB": [], "indexC": [], "indexR": [], "indexE": [], "indexS": [], "indexT": []}
+        self.sockets = []           # List of Socket instances
+        self.running = True         # Main loop control flag
+        self.AITA = []              # Holds the current context, including visual state
+    def log_socket(self, socket):
+        self.sockets.append(socket)
+    def stop(self):
+        self.running = False
+    def main_loop(self):
+        # Add Logic to define what is an input socket
+        while self.running:
+            for socket in self.sockets: # Loops over inputs
+                subject = socket.read()
+                # Add logic to use input and execute output in context with:
+                    # AITA
+                    # NIMM
 
-def bootStrap():
-    class InputSocket:
-        def __init__(self, name):
-            self.name = name
-            self.buffer = Queue()
-            self.thread = threading.Thread(target=self.listen, daemon=True)
-            self.thread.start()
-        
-        def listen(self):
-            while True:
-                data = read_input_data_somehow()
-                self.buffer.put(data)
+class Socket:
+    def __init__(self, name):
+        self.name = name
+        self.id = socket_id
+        self.buffer = []
+        self.queue = []
+        self.running = True
+        self.thread = threading.Thread(target=self.asynch_loop, daemon=True)
+        self.thread.start()
+    def read(self):
+        if self.buffer:
+            return self.buffer.pop(0)
+        return None
+    def write(self, data):
+        self.queue.append(data)
+        pass
+    def asynch_loop(self):
+        while self.running:
+            if self.queue:
+                self.buffer.append(process(self.queue.pop(0)))
+            return None
+
+#
+##
+####
+################
+################################################################################################################################################################################################################################################################
+def main():
+    app_state = AppState() 
+    bootLoad(app_state)
+    # Assigns values to Run Time App State and create sockets
+    bootStrap(app_state)
     
-    class OutputSocket:
-        def __init__(self, name):
-            self.name = name
-            
-        def send(self, data)
-            draw_to_display(data)   #Make both classes ambiguous beyond input and output
+    pygame.init()
+    screen = pygame.display.set_mode((800, 600))    # Necessary: creates the window or screen surface
+    clock = pygame.time.Clock()
+    running = True
+    
+    while running:
+        data = display.read_data()
+        if data:
+            # Do something with the processed display data
+            update_screen_with(data)
 
-#
-##
-####
-################
-####
-##
-#
+        # Update Pygame display
+        draw_screen(screen)
+        clock.tick(60)
 
-RudiGrp = ["phnmR", "Alice", "Bob", "Carol", "Dave"]
+    pygame.quit()
 
-# enumerate(names, 1) yields (1,"Alice"), (2,"Bob"), …
-numbered = { i: rudi for i, rdui in enumerate(RudiGrp, 1) }
 
-#Convention creates some number of instances of a given rudi to create a system
-phnmSyst    = [LIPpos, JAWpos, TONGUEpos, TONGUEman, TONGUEshp, MOUTHloc, NASAL, THROAT] # 8 instances
+if __name__ == '__main__':
+    main()
 
-#
-##
-####
-################
-####
-##
-#
-
-def harmoicDev  #Zeckendorf notation of value
-    #Logic here
-    return
-
-def jumpset     #Pingala notation of value
-    #Logic here
-    return
-
-plSyst      = [POS, NEG]
-eqSyst      = [True, False]
-
-natureSyst  = [polarity, cardinal, natural, ratio,]
-
-crdnlSyst   = [up, down, back front, weird, strange]
-rltnSyst    = [subject, origin, nature, truth, frequency, magnitude, ]
-
-wavesyst    = [frequency, magnitude]
-
-#
-##
-####
-################
