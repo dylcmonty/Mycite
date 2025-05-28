@@ -10,7 +10,6 @@ The architecture is based on a central runtime object (`AppState`) and a percept
 
 ## Project Layout
 
-'''
 /ProjectFolder
 ├── main.py # Entry point script - only if needed
 ├── boot.py # Logic modules: classes, functions, utilities, etc.
@@ -22,7 +21,7 @@ The architecture is based on a central runtime object (`AppState`) and a percept
 ├── bloom/ # [Add caption here]
 ├── hyphae/ # [Add caption here]
 └── KatBots/ # [Add caption here]
-'''
+
 ---
 
 ## Core Components
