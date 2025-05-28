@@ -10,17 +10,16 @@ The architecture is based on a central runtime object (`AppState`) and a percept
 
 ## Project Layout
 
-/ProjectFolder
-├── main.py # Entry point script - only if needed
-├── boot.py # Logic modules: classes, functions, utilities, etc.
-├── init.py # Makes program a package
-├── readme.txt # This file
-├── OperatingSystem/ # Specialized directory
-├── Hardware/ # Specialized directory
-└── assets/ # Optional specialized module directory with init.py to group modules in packages
-├── bloom/ # [Add caption here]
-├── hyphae/ # [Add caption here]
-└── KatBots/ # [Add caption here]
+- /ProjectFolder
+- ├── main.py          # Entry point script - only if needed
+- ├── boot.py          # Logic modules: classes, functions, utilities, etc.
+- ├── README.md        # This file
+- ├── OperatingSystem/ # Specialized directory
+- ├── Hardware/        # Specialized directory
+- └── assets/          # Optional specialized module directory with init.py to group modules in packages
+  - ├── bloom/         # Ambiguouse Design devision lgoic to visualize Control Gate view feild
+  - ├── hyphae/        # Input command line abstaction modeule
+  - └── KatBots/       # Aplication tool module
 
 ---
 
