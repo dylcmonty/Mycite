@@ -2,9 +2,15 @@
 
 ## Overview
 
-This project is a modular Python-based environment designed to model and manage dynamic attention systems using socket-driven input/output, visual control fields, and evolving system state. It is designed to function as a simulation and control environment capable of integrating multiple input modalities (HID, network, sensor), visual representation systems (Pygame), and eventual expansions into protocol-based communication (e.g. HTTP, DNS, BitTorrent).
+The ControlGate Framework is a modular, Python-based architecture designed to manage dynamic attention, intention, and state across interactive systems.
+It is inspired by biological metaphors (Tree, Mycelium, Environment) and enables coordinated processing of user inputs, system states, and network events.
 
-The architecture is based on a central runtime object (`AppState`) and a perception-action framework controlled by a `ControlGate` object with a visual `view` matrix and intention buffer. The code is designed for extensibility and experiment-based control simulations.
+This framework allows:
+- Modular integration of human, device, and network inputs
+- Intent-driven updates to system state and visual representation
+- Asynchronous-synchronous orchestration of internal flows
+
+It can evolve into a real-time control system, database navigator, or live intelligent visualization platform.
 
 ---
 
@@ -26,50 +32,70 @@ The architecture is based on a central runtime object (`AppState`) and a percept
 ## Core Components
 
 ### AppState
-Holds the active runtime state of the application. Includes:
-- Captured binary stream
-- Socket registry
-- Entity tracking
-- ControlGate instance
+The central brain managing:
+- What’s currently focused (attention)
+- What’s visible or active (view)
+- What relationships or context are linked (earshot, archetypes)
+- What intentions or actions are queued for processing
 
-### ControlGate
-Manages the perception field:
-- `attention` (field, focus)
-- `view` matrix: a 2D space into which `Entity.id`s can be bloomed
-- `intention`, `chronological`, and `archetype` states
-- Future methods like `AITA()` to synthesize and interpret data
+It synchronizes all live system state.
 
-### Entity
-Each object or agent that can be "bloomed" into the visual field. Identified by a unique `id`.
+### Peripheral Processes
+These are modular input and output modules:
+- StateReadIn → Handles human/device input (keyboard, mouse, sensors)
+- StateReadOut → Drives human/device outputs (visual display, feedback)
+- MyciteReadIn → Captures network or external system input
+- MyciteReadOut → Pushes system state or results outward
 
-### Socket
-Threaded I/O object capable of safely managing asynchronous data exchange using Python’s `queue.Queue`. Supports general-purpose input and output logic, decoupled from specific protocols.
+Each runs asynchronously, feeding or consuming data for the core system.
 
-### GameState
-Initializes Pygame window and manages frame updates. Reads from a `display` socket buffer to drive visualization.
+### Intention Handler
+This interpretive layer:
+- Classifies raw events into four intention types:
+    - Navigation → Moving focus or scope
+    - Investigation → Querying internal structure
+    - Manipulation → Changing data or state
+    - Mediation → Coordinating across boundaries
+- Dispatches intentions to modify AppState
+- Keeps the system’s meaning clear despite multiple asynchronous signals
+
+### The Main Loop
+The synchronous heartbeat:
+- Processes queued intentions
+- Recalculates the view, state, or outputs
+- Drives visual or external updates (e.g., via Pygame or network)
 
 ---
 
 ## How It Works
 
-1. `bootLoad()` loads binary input from a `.bin` file and unpacks it into a bitstream.
-2. `bootStrap()` initializes logical groups and sets up any required socket configurations or handlers.
-3. `main.py` launches the game window, loads system memory, and starts the main application loop.
-4. A function like `bloom()` writes `Entity.id` values into matrix positions in the `ControlGate.view`.
-5. Data from input sockets are routed through asynchronous listeners into queues and processed via `process()` (to be defined).
-6. Display sockets feed the screen with content for real-time visualization of internal state.
+1. `bootLoad()` Loads system memory (e.g., from .bin files) and unpacks binary data.
+2. `bootStrap()` Initializes logical groups, sets up socket listeners, prepares peripheral modules.
+3. `main.py` Creates AppState, launches the synchronous main loop.
+4. Peripheral Processes: Asynchronously detect inputs or required outputs, adding updates to system buffers.
+5. Intention Handler: Reads peripheral signals, classifies them, and updates AppState.
+6. StateReadOut: Pushes updated visuals, states, or outputs to the user or external systems.
 
 ---
 
 ## Extensibility Plan
-
 The system is structured to support:
 
-- **HTTP or WebSocket communication**  
-- **Modular plugin handlers for protocols** (BitTorrent, DNS, etc.)  
-- **Graphical or auditory output devices**
-- **Multimodal input** (mouse, keyboard, custom sensors)
-- **Custom entity processing pipelines**
+- Adding new input devices or sensor streams
+- Supporting HTTP/WebSocket/network protocols (e.g., DNS, BitTorrent)
+- Building custom archetype modules for specialized behavior
+- Integrating advanced visual/audio interfaces with Pygame or similar libraries
+- Supporting multimodal user interaction (navigation, manipulation, mediation)
+
+---
+
+## Development Roadmap
+- Define one working end-to-end input-to-output flow
+- Integrate intention handler for interpreting and routing actions
+- Expand peripheral modules (read-in, read-out, network)
+- Tighten metaphor-to-data mapping (attention, intention, archetype)
+- Add modular plugin architecture for easy future extensions
+- Implement logging, diagnostics, and testing scaffolds
 
 ---
 
@@ -83,6 +109,4 @@ Licensed under the [Apache License 2.0](https://www.apache.org/licenses/LICENSE-
 
 Built and authored by Dylan Montgomery  
 Version: 6.04.05  
-Status: Active prototyping
-
-
+Status: Active prototyping and architectural refinement
