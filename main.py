@@ -13,162 +13,113 @@
 
 # mycite_project/main.py
 # AUTHOR:   Dylan Montgomery
-# MODIFIED: 2025-05-25
-# VERSION:  6.04.05
+# MODIFIED:	2025-06-10
+# VERSION:	6.09.01
 # PURPOSE:  HERE
-# Notes:    HERE
+# Notes:   
 
 import threading
+import queue
+import time
+from hardware_sockets import keyboard_socket, mouse_socket, network_in_socket, network_out_socket, display_socket
 
-# [Extended Metaphor] This is the Tree (the system brain and coordinator)
-class ControlGate:
+class AppState:
     def __init__(self):
-        self.state_view = []            # Current visual or accessible state
-        self.state_earshot = []         # Current auditory or relational context
-        self.senses = {}                # Holds StateReadIn instances, keyed by name
-        self.mycite_sense = False       # Tracks network/external input awareness
-        self.running = True             # Main loop control flag
-        self.subject = []               # [Metaphor] Attention (what’s currently focused)
-        self.buffer = []                # [Metaphor] Intention (queued actions/outputs)
-        self.archetype = []             # Pattern models or relational schemas
-        # self.time → Add clock/timing system here if needed
-
+        
     def boot(self):
-        # Placeholder: initialize system, load configs, etc.
-        pass
-
-    def exit(self):
-        self.running = False
-
-    def main_loop(self):
-        while self.running:
-            # Synchronous main loop: checks each sense for updates
-            for sense_name, sense_obj in self.senses.items():
-                if sense_obj.has_update():
-                    sense_obj.read()
-                    # Process the read value, likely dispatch to intention handler (not yet defined)
-
-# [Extension of ControlGate] AppState adds memory capture + specialized group logic
-class AppState(ControlGate):
-    def __init__(self):
-        super().__init__()
-        self.capture = []                # Raw bit capture
-        self.conventGrps = {             # Logical grouping of schema sections
-            "indexA": [], "indexB": [], "indexC": [],
-            "indexR": [], "indexE": [], "indexS": [], "indexT": []
-        }
-
+        # Initialize intention handler (partial logic)
+        self.intention_handler = self.apply_intention
+    def apply_intention(self, intention_type, data):
+        # Partial IntentionHandler logic heremycite_readout
+        if intention_type == 'navigation':
+            self.subject = data
+        elif intention_type == 'investigation':
+            self.state_earshot = data
+        elif intention_type == 'manipulation':
+            self.buffer.append(data)
+        elif intention_type == 'mediation':
+            self.state_view = data
+        # TODO: Expand how each updates app state
     def boot_load(self):
-        # Loads binary memory file and unpacks into bits
         with open('world.bin', 'rb') as f:
             raw = f.read()
         for byte in raw:
             for bitpos in range(7, -1, -1):
                 self.capture.append((byte >> bitpos) & 1)
-
         conventMS = {grp: [] for grp in self.conventGrps}  # Placeholder task for schema assignment
-
         for grp in self.conventGrps:
             # TODO: Define loop logic to assign captured bits to the right group ranges
             pass
-
     def bootStrap(self):
         # TODO: Setup sockets, peripheral processes, and intention handlers here
         pass
 
-# Base class for any peripheral or external process (input/output)
-class PeripheralProcess:
-    def __init__(self):
-        self.running = False
-        self.subject = []               # [Metaphor] Attention
-        self.flag = False               # [Metaphor] Notice Threshold
-        self.buffer = []                # [Metaphor] Intention queue
-        self.archetype = []             # Behavioral or functional template
-
+class ControlGate(AppState):
+    def __init__(self, directive, system):
+        super().__init__()
+        self.capture = []
+        self.conventGrps = {
+            "indexA": [], "indexB": [], "indexC": [],
+            "indexR": [], "indexE": [], "indexS": [], "indexT": []
+        }
+        boot_load(self) # calls function from AppState
+        bootStrap(self) # calls function from AppState
+        self.attention = []     # Each directive is implemented in context with this context
+        self.intention = []     # Each directive is implemented in context with this context
+        self.time = []          # Each directive is implemented in context with this context
+        self.archytype = []     # Each directive is implemented in context with this context
+        self.state_view = []             # Current visual state
+        self.state_earshot = []          # Current auditory/relational state
+        self.senses = {}                 # Maps sense names to StateReadIn instances
+        self.mycite_sense = False        # Tracks if network input has updates
+        self.running = True              # Main loop flag
+        self.subject = []                # Attention: current focus
+        self.buffer = []                 # Intention: queued updates
+        self.archetype = []              # Schema/patterns
+        self.master_input_buffer = []    # Safe merged input buffer (periodically updated)
     def exit(self):
         self.running = False
-
-    def peripheral_loop(self):
+    def diretive_handler(self, directive):
+        # for each directive instance, determine type:
+            # navigation, investigation, mediation, or manipulation
+        # At the end of each directive, update state values or context
+    def main_loop(self, system):
         while self.running:
-            # Placeholder: define the async loop logic for checking external updates
-            pass
-
-# [Input] Tree root checks external nutrients as needed
-class StateReadIn(PeripheralProcess):
-    def __init__(self):
-        super().__init__()
-        self.running = True
-        # TODO: Set up socket archetype, attention target
-
-    def has_update(self):
-        # TODO: Implement actual check if new input is available
-        return False
-
-    def read(self):
-        # TODO: Implement actual data read-in logic
-        pass
-
-# [Input] Mycelium checks network or system updates
-class MyciteReadIn(PeripheralProcess):
-    def __init__(self):
-        super().__init__()
-        self.running = True
-
-    def peripheral_loop(self):
-        # TODO: Define async network listening loop
-        pass
-
-# [Output] Tree state changes trigger external outputs
-class StateReadOut(PeripheralProcess):
-    def __init__(self):
-        super().__init__()
-        self.running = True
-        self.view_shift = False         # Tracks if visual update is needed
-        self.earshot_shift = False      # Tracks if auditory/context update is needed
-
-    def react_view(self):
-        if self.view_shift:
-            # TODO: Handle visual output update
-            pass
-
-    def react_earshot(self):
-        if self.earshot_shift:
-            # TODO: Handle auditory or relational context output
-            pass
-
-# [Output] Mycelium observes Tree’s state and forwards signals externally
-class MyciteReadOut(PeripheralProcess):
-    def __init__(self):
-        super().__init__()
-        self.running = True
-
-    def react_state(self, app_state):
-        if getattr(app_state, 'state_shift', False):
-            # TODO: Read app_state view/context to push external updates
-            pass
+            for sock in system:
+                diretive_handler(system)
+                sense(sock)
+    
+    # Directive should be the only socket that gets handled
+    # Other inputs (and/or outputs) are writing (and/or reading) to (and/or from) state
 
 def main():
-    app_state = AppState()
-    app_state.boot()
-
-    # Initialize peripheral processes
-    state_readin = StateReadIn()
-    mycite_readin = MyciteReadIn()
-    state_readout = StateReadOut()
-    mycite_readout = MyciteReadOut()
+    keyboard_queue = queue.Queue()
+    mouse_queue = queue.Queue()
+    network_in_queue = queue.Queue()
+    peripheral_in_queue = queue.Queue()
+    network_out_queue = queue.Queue()
+    display_queue = queue.Queue()
+    peripheral_out_queue = queue.Queue()
+    
+    directive = [keyboard_queue, mouse_queue]
+    system = [network_in_queue, peripheral_in_queue, network_out_queue, display_queue, peripheral_out_queue]
+    
+    control_gate = ControlGate(directive, system)
+    
+    app_state.boot() 
 
     # Launch peripheral threads
-    threading.Thread(target=state_readin.peripheral_loop).start()
-    threading.Thread(target=mycite_readin.peripheral_loop).start()
-    threading.Thread(target=state_readout.peripheral_loop).start()
-    threading.Thread(target=mycite_readout.peripheral_loop).start()
+    threading.Thread(target=keyboard_socket, args=(keyboard_queue), daemon=True).start()
+    threading.Thread(target=mouse_socket, args=(mouse_queue), daemon=True).start()
+    threading.Thread(target=network_in_socket, args=(network_in_queue), daemon=True).start()
+    threading.Thread(target=peripheral_in_socket, args=(peripheral_in_queue), daemon=True).start()
+    threading.Thread(target=network_out_socket, args=(network_out_queue), daemon=True).start()
+    threading.Thread(target=display_socket, args=(display_queue), daemon=True).start()
+    threading.Thread(target=peripheral_out_socket, args=(peripheral_out_queue), daemon=True).start()
 
-    # Start main synchronous loop
-    while app_state.running:
+    # Run the main control loop
+    while app_state.running
         app_state.main_loop()
 
-    # Graceful shutdown of all peripheral processes
-    state_readin.exit()
-    mycite_readin.exit()
-    state_readout.exit()
-    mycite_readout.exit()
+if __name__ == '__main__':
+    main()
