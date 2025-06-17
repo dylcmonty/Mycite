@@ -1,37 +1,34 @@
-# ControlGate Framework
+# Mycite Framework
 
 ## Overview
+The Mycite Framework is a control system and data handling skeleton built to support extensible software and data environments through semantic coordination. It reflects a design principle where automation and smart systems remain interpretable and controllable by their users. Not through simplification, but through a unified and disambiguated language of intention.
 
-The ControlGate Framework is a modular, Python-based architecture designed to manage dynamic attention, intention, and state across interactive systems.
-It is inspired by biological metaphors (Tree, Mycelium, Environment) and enables coordinated processing of user inputs, system states, and network events.
+Modern automation introduces a tension between control and action: as systems become smarter, the abstraction between a user's directive and the resulting behavior becomes less clear. The Mycite Framework directly addresses this by ensuring that every computational action, whether triggered by human input or another process, remains legible and modifiable. Control is preserved not through containment, but through dynamic, interoperable system design.
 
-This framework allows:
-- Modular integration of human, device, and network inputs
-- Intent-driven updates to system state and visual representation
-- Asynchronous-synchronous orchestration of internal flows
-
-It can evolve into a real-time control system, database navigator, or live intelligent visualization platform.
+True privacy in a connected system requires that individuals and communities can build, control, and update both hardware and software that interact across platforms, without sacrificing intelligibility. Mycite enables this by offering a universally structured semantic schema (MSS) and layered addressable contexts (SSID), where meaning can evolve while remaining logically consistent and interoperable.
 
 ---
 
 ## Project Layout
 
 - /ProjectFolder
-- ├── main.py          # Entry point script - only if needed
-- ├── boot.py          # Logic modules: classes, functions, utilities, etc.
+- ├── main.py          # Entry point script: Holds App state and Hosts Control gate & Peripheral Socket participation.
+- ├── boot.py          # Logic modules: Load Data file in as memory, change and update memory, configure new MSS design, etc.
 - ├── README.md        # This file
+- ├── hardware.py      # Less interoperable single I/O socket handlers 
 - ├── OperatingSystem/ # Specialized directory
-- ├── Hardware/        # Specialized directory
 - └── assets/          # Optional specialized module directory with init.py to group modules in packages
-  - ├── bloom/         # Ambiguouse Design devision lgoic to visualize Control Gate view feild
-  - ├── hyphae/        # Input command line abstaction modeule
-  - └── KatBots/       # Aplication tool module
+  - ├── bloom/         # Ambiguous Design division logic to visualize Control Gate view field
+  - ├── hyphae/        # Input command line abstraction module
+  - └── KatBots/       # Application tool module
 
 ---
 
 ## Core Components
 
-### AppState
+### main.py
+
+#### AppState
 The central brain managing:
 - What’s currently focused (attention)
 - What’s visible or active (view)
@@ -40,7 +37,7 @@ The central brain managing:
 
 It synchronizes all live system state.
 
-### Peripheral Processes
+#### Peripheral Processes
 These are modular input and output modules:
 - StateReadIn → Handles human/device input (keyboard, mouse, sensors)
 - StateReadOut → Drives human/device outputs (visual display, feedback)
@@ -49,7 +46,7 @@ These are modular input and output modules:
 
 Each runs asynchronously, feeding or consuming data for the core system.
 
-### Intention Handler
+#### Intention Handler
 This interpretive layer:
 - Classifies raw events into four intention types:
     - Navigation → Moving focus or scope
@@ -59,28 +56,40 @@ This interpretive layer:
 - Dispatches intentions to modify AppState
 - Keeps the system’s meaning clear despite multiple asynchronous signals
 
-### The Main Loop
+#### The Main Loop
 The synchronous heartbeat:
 - Processes queued intentions
 - Recalculates the view, state, or outputs
 - Drives visual or external updates (e.g., via Pygame or network)
+
+### boot.py
+
+#### bootLoad
+Boot logic parses and reconstructs schema sections (Index_A, B, C, S, T, and O) using modular parsing functions. The process begins by reading in a raw bitstream and interpreting it as a structured semantic address space rather than a flat record set.
+
+Using Semantic-System ID Layering (SSID), MSS allows highly abstractable domains to coexist alongside granular detail. Each SSID Layer is a semantic scope boundary within which addressable references hold meaning. This enables meaning to be deferred through interpretive chains rather than fixed fields. It allows new schemas to evolve dynamically while preserving backward compatibility, enabling long-term extensibility and interoperability.
+
+#### bootStrap
+Add later 
+
+#### bootBeget
+Add later 
 
 ---
 
 ## How It Works
 
 1. `bootLoad()` Loads system memory (e.g., from .bin files) and unpacks binary data.
-2. `bootStrap()` Initializes logical groups, sets up socket listeners, prepares peripheral modules.
+2. `bootStrap()` Initializes parsed and structured in-memory relational data base to attach to app state system
 3. `main.py` Creates AppState, launches the synchronous main loop.
 4. Peripheral Processes: Asynchronously detect inputs or required outputs, adding updates to system buffers.
-5. Intention Handler: Reads peripheral signals, classifies them, and updates AppState.
-6. StateReadOut: Pushes updated visuals, states, or outputs to the user or external systems.
+5. Intention Handler: As a part of the Control Gate convention of implementation; reads primary and secondary peripheral signals, classifies them, and serves them to AppState.
+6. StateReadOut: Observes and pushes relevant Appstate updates to inform visuals or outputs to the user or external systems.
 
 ---
 
 ## Extensibility Plan
 The system is structured to support:
-
 - Adding new input devices or sensor streams
 - Supporting HTTP/WebSocket/network protocols (e.g., DNS, BitTorrent)
 - Building custom archetype modules for specialized behavior
@@ -93,9 +102,10 @@ The system is structured to support:
 - Define one working end-to-end input-to-output flow
 - Integrate intention handler for interpreting and routing actions
 - Expand peripheral modules (read-in, read-out, network)
-- Tighten metaphor-to-data mapping (attention, intention, archetype)
 - Add modular plugin architecture for easy future extensions
 - Implement logging, diagnostics, and testing scaffolds
+
+(Future layering of federated trust systems and custom governance logic through interoperable semantic modules)
 
 ---
 
