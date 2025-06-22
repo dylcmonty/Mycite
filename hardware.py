@@ -4,7 +4,7 @@
 # mycite_project/hardware.py
 # AUTHOR:   Dylan Montgomery
 # MODIFIED: 2025-05-30
-# VERSION:  6.06.03
+# VERSION:	6.10.01
 # PURPOSE:  HERE
 # NOTE: HERE
 
