@@ -50,9 +50,9 @@ def bootLoad(app_state):
 def parse_index_a(bits, cursor):
     # Denotes the length of the in-memory file space
         # RZN Decode Pseudocode:
-        # Step 1: Slice A – count '1's until first '0'; this gives how many primes to use
-        # Step 2: Slice B – read bits until next '0'; this tells which primes are used
-        # Step 3: Slice C – for each '1' in Slice B, read exponent in unary until '0'
+        # Step 1: Slice A - count '1's until first '0'; this gives how many primes to use
+        # Step 2: Slice B - read bits until next '0'; this tells which primes are used
+        # Step 3: Slice C - for each '1' in Slice B, read exponent in unary until '0'
         # Step 4: Reconstruct value by multiplying each selected prime to its exponent
     return {}, cursor  # Replace with actual logic
 
