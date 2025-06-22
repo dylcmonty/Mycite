@@ -57,7 +57,7 @@ This interpretive layer:
 - Keeps the system’s meaning clear despite multiple asynchronous signals
 
 #### The Main Loop
-The synchronous heartbeat:
+The synchronous Clock:
 - Processes queued intentions
 - Recalculates the view, state, or outputs
 - Drives visual or external updates (e.g., via Pygame or network)
@@ -69,11 +69,33 @@ Boot logic parses and reconstructs schema sections (Index_A, B, C, S, T, and O) 
 
 Using Semantic-System ID Layering (SSID), MSS allows highly abstractable domains to coexist alongside granular detail. Each SSID Layer is a semantic scope boundary within which addressable references hold meaning. This enables meaning to be deferred through interpretive chains rather than fixed fields. It allows new schemas to evolve dynamically while preserving backward compatibility, enabling long-term extensibility and interoperability.
 
-#### bootStrap
-Add later 
+#### Mycelium Schema Standardization
+MSS is the base model for standardizing how data is stored and interpreted. The pilot version defines:
+- Index A: Size parameters for memory/space constraints
+- Index B: Size parameters for remaining Schema definition ( Index A + B + C)
+- Index C: Sectioning of remaining file space for structural blueprint
+- Index O: Segmentation map (SSID layers)
+- Index S/T: Spatial/temporal abstractions for layout, behavior, or positioning
+It ensures consistency while remaining domain-agnostic.
 
-#### bootBeget
-Add later 
+RIEMAN-ZECKENDORF NUMBER (RZN) NOTATION:
+A method for encoding values in a canonical, retroindeterministic format that allows self-termination and zoomable extensibility. Data is stored as prime-indexed values via three segments:
+- Slice A: Up until what largest prime is necessary to define the space.
+- Slice B: Which primes are present for use
+- Slice C: To what value are each of the primes to the power of prime
+This supports layered, lossless integer-based addressing, ideal for layered semantic models.
+
+SEMANTIC-SYSTEM IDENTIFICATION (SSID) LAYERING:
+- Layers are semantic frames that define scope boundaries in which references are meaningful. Each layer governs its own address space and points to archetypes defined in the previous layer. This enables modular reuse of tables and instances, where values hold meaning only in their scoped semantic context. It supports multi-resolution data referencing and logical extensibility without global redefinition.
+
+Clarification:
+- The bridge between the RZN is the point in which the space is assumed to notate the Rudi group in which the recombination in which are used to create the SSID abstraction layers.
+
+Point of consideration for Alternative Design and/or Further Refinement:
+- Using a Riemann-Pingalla-Notation (RPN), it can be shown that the use of a number notation that is less efficient in value increase can overall match a value notation. Done by using the polar nature of Tertiary-Basic (TB) in combination with RPN's use of the Fibonacci Sequence to allow for the notation of one value in multiple different ways. Increasing in means of notation by the size of description, the added semantics are in the modularization of space defined.
+
+SUMMARY INTEGRATION:
+By combining RZN and SSID Layering, a system is created that can model complex, recursive abstractions in a linear, machine-friendly way. It reflects the digital system’s sequential nature while allowing for semantic flexibility, extensibility, and depth-aware composition.
 
 ---
 
@@ -117,6 +139,6 @@ Licensed under the [Apache License 2.0](https://www.apache.org/licenses/LICENSE-
 
 ## Acknowledgments
 
-Built and authored by Dylan Montgomery  
-Version: 6.04.05  
+Built and authored by Dylan Montgomery
+VERSION:	6.10.01
 Status: Active prototyping and architectural refinement
