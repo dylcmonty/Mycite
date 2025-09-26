@@ -18,7 +18,7 @@ True privacy in a connected system requires that individuals and communities can
 - ├── README.md         # This file
 - ├── docs/             # Specialized directory
   - ├── [White Paper](docs/Mycite-white_paper.md)
-  - └── [Schema Standardization](docs/discussion.md)
+  - └── [Schema Standardization](/discussion.md)
 - └── assets/           # Optional specialized module directory with init.py to group modules in packages
   - ├── bloom/          # Ambiguous Design division logic to visualize Control Gate view field
   - ├── hyphae/         # Input command line abstraction module
