@@ -197,13 +197,15 @@ With Fruitful Network Development, consumers can directly support responsible ag
 
 ---
 
-### References
-(Optional) Add references to books, papers, or resources. Format them in plain Markdown list style:  
-- Author, *Title*, Year.  
-- Author, *Title*, Year.  
+## License
+
+Licensed under the [Apache License 2.0](https://www.apache.org/licenses/LICENSE-2.0). This allows modification, redistribution, and commercial use with attribution.
 
 ---
 
-### Notes
-(Any disclaimers, acknowledgments, or additional info.)
+## Acknowledgments
+
+Built and authored by Dylan Montgomery
+VERSION:	9.03.04
+Status: Active prototyping and architectural refinement
 
