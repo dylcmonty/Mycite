@@ -13,113 +13,115 @@
 
 # mycite_project/main.py
 # AUTHOR:   Dylan Montgomery
-# MODIFIED:	2025-06-10
-# VERSION:	6.10.01
+# MODIFIED:	2025-09-26
+# VERSION:	9.03.04
 # PURPOSE:  HERE
-# Notes:   
 
 import threading
 import queue
 import time
-from hardware_sockets import keyboard_socket, mouse_socket, network_in_socket, network_out_socket, display_socket
+import MSS_convention
+from datetime import datetime
 
 class AppState:
     def __init__(self):
+        self.mss_systm = MSS()
         
-    def boot(self):
-        # Initialize intention handler (partial logic)
-        self.intention_handler = self.apply_intention
-    def apply_intention(self, intention_type, data):
-        # Partial IntentionHandler logic heremycite_readout
-        if intention_type == 'navigation':
-            self.subject = data
-        elif intention_type == 'investigation':
-            self.state_earshot = data
-        elif intention_type == 'manipulation':
-            self.buffer.append(data)
-        elif intention_type == 'mediation':
-            self.state_view = data
-        # TODO: Expand how each updates app state
-    def boot_load(self):
-        with open('world.bin', 'rb') as f:
-            raw = f.read()
-        for byte in raw:
-            for bitpos in range(7, -1, -1):
-                self.capture.append((byte >> bitpos) & 1)
-        conventMS = {grp: [] for grp in self.conventGrps}  # Placeholder task for schema assignment
-        for grp in self.conventGrps:
-            # TODO: Define loop logic to assign captured bits to the right group ranges
-            pass
-    def bootStrap(self):
-        # TODO: Setup sockets, peripheral processes, and intention handlers here
+        self.running = True
+        self.hid_flag = False
+        self.net_flag = False
+        self.peri_flag = False
+
+        self.hid_buffer: list[tuple[bytes, datetime]] = []
+        self.net_buffer: list[tuple[bytes, datetime]] = []
+        self.peri_buffer: list[tuple[bytes, datetime]] = []
+        
+        self.mss_systm.boot()
+        self.mss_systm.boot_load()
+        self.objects = self.mss_systm.COMB_filament
+        
+        self.cdzm = [0]
+        self.cdfcs = [0]
+        self.cdslct = [0]
+        self.tm = None  # 
+    
+    def directive(self, item):
+        pass
+    def daemon(self, item):
+        pass
+        
+    def _select(self, kind: str):
+        # kind ∈ {'hid','net','peri'}
+        if kind == 'hid':  return self.hid_buffer, 'hid_flag'
+        if kind == 'net':  return self.net_buffer, 'net_flag'
+        if kind == 'peri': return self.peri_buffer, 'peri_flag'
+        raise ValueError(f"unknown buffer kind: {kind}")
+    def enqueue(self, kind: str, datum: bytes, ts: datetime | None = None):
+        buf, flag_name = self._select(kind)
+        was_empty = (len(buf) == 0)
+        buf.append((datum, ts or datetime.utcnow()))
+        if was_empty:
+            setattr(self, flag_name, True)   # first item flips flag on
+    def try_dequeue(self, kind: str):
+        buf, flag_name = self._select(kind)
+        if not buf:
+            return None
+        item = buf.pop(0)
+        if not buf:
+            setattr(self, flag_name, False)  # drained → flag off
+        return item
+    # TODO: Setup sockets, peripheral processes, and intention handlers here
+    
+    def main_loop(self, sleep_s: float = 0.01):
+        while self.running:
+            # HID isolation
+            if self.hid_flag:
+                while self.hid_flag and self.running:
+                    item = self.try_dequeue('hid')
+                    if item is not None:
+                        self.directive(item)
+                    else:
+                        time.sleep(sleep_s)
+                continue  # restart outer loop after HID isolation
+            # One-shot checks for NET/PERI
+            if self.net_flag:
+                item = self.try_dequeue('net')
+                if item is not None:
+                    self.daemon(item)
+            if self.peri_flag:
+                item = self.try_dequeue('peri')
+                if item is not None:
+                    self.daemon(item)
+            time.sleep(sleep_s)
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+class PortMaster(AppState):
+    def __init__(self):
+        super().__init__()
+    def main_loop(self):
+    # TODO: Asynchronously listen to hardware sockets and put datums into the corresponding buffer queue
+    # When a datum is added to the queue, the respective flag should be made true
+        # Pseudocode placeholders – keep them commented to avoid syntax errors
+        # if <HID condition>:
+        #     self.enqueue('hid', datum)
+        # if <NET condition>:
+        #     self.enqueue('net', datum)
+        # if <PERI condition>:
+        #     self.enqueue('peri', datum)
         pass
 
-class ControlGate(AppState):
-    def __init__(self, directive, system):
-        super().__init__()
-        self.capture = []
-        self.conventGrps = {
-            "indexA": [], "indexB": [], "indexC": [],
-            "indexR": [], "indexE": [], "indexS": [], "indexT": []
-        }
-        boot_load(self) # calls function from AppState
-        bootStrap(self) # calls function from AppState
-        self.attention = []     # Each directive is implemented in context with this context
-        self.intention = []     # Each directive is implemented in context with this context
-        self.time = []          # Each directive is implemented in context with this context
-        self.archytype = []     # Each directive is implemented in context with this context
-        self.state_view = []             # Current visual state
-        self.state_earshot = []          # Current auditory/relational state
-        self.senses = {}                 # Maps sense names to StateReadIn instances
-        self.mycite_sense = False        # Tracks if network input has updates
-        self.running = True              # Main loop flag
-        self.subject = []                # Attention: current focus
-        self.buffer = []                 # Intention: queued updates
-        self.archetype = []              # Schema/patterns
-        self.master_input_buffer = []    # Safe merged input buffer (periodically updated)
-    def exit(self):
-        self.running = False
-    def diretive_handler(self, directive):
-        # for each directive instance, determine type:
-            # navigation, investigation, mediation, or manipulation
-        # At the end of each directive, update state values or context
-    def main_loop(self, system):
-        while self.running:
-            for sock in system:
-                diretive_handler(system)
-                sense(sock)
-    
-    # Directive should be the only socket that gets handled
-    # Other inputs (and/or outputs) are writing (and/or reading) to (and/or from) state
-
+    def get_queue(buffer: list, flag):
+        if buffer:
+            item = buffer.pop(0)
+            return item, (len(buffer) == 0)
+        # TODO: If popping from buffer, leaves the buffer empty, then set the respective flag to false
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 def main():
-    keyboard_queue = queue.Queue()
-    mouse_queue = queue.Queue()
-    network_in_queue = queue.Queue()
-    peripheral_in_queue = queue.Queue()
-    network_out_queue = queue.Queue()
-    display_queue = queue.Queue()
-    peripheral_out_queue = queue.Queue()
-    
-    directive = [keyboard_queue, mouse_queue]
-    system = [network_in_queue, peripheral_in_queue, network_out_queue, display_queue, peripheral_out_queue]
-    
-    control_gate = ControlGate(directive, system)
-    
-    app_state.boot() 
+    runtime_app = AppState();
+    runtime_app.boot();
+    runtime_app.boot_load();
 
-    # Launch peripheral threads
-    threading.Thread(target=keyboard_socket, args=(keyboard_queue), daemon=True).start()
-    threading.Thread(target=mouse_socket, args=(mouse_queue), daemon=True).start()
-    threading.Thread(target=network_in_socket, args=(network_in_queue), daemon=True).start()
-    threading.Thread(target=peripheral_in_socket, args=(peripheral_in_queue), daemon=True).start()
-    threading.Thread(target=network_out_socket, args=(network_out_queue), daemon=True).start()
-    threading.Thread(target=display_socket, args=(display_queue), daemon=True).start()
-    threading.Thread(target=peripheral_out_socket, args=(peripheral_out_queue), daemon=True).start()
-
-    # Run the main control loop
-    while app_state.running
-        app_state.main_loop()
+    runtime_app.main_loop();
 
 if __name__ == '__main__':
     main()
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
