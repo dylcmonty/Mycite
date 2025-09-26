@@ -12,15 +12,17 @@ True privacy in a connected system requires that individuals and communities can
 ## Project Layout
 
 - /ProjectFolder
-- ├── main.py          # Entry point script: Holds App state and Hosts Control gate & Peripheral Socket participation.
-- ├── boot.py          # Logic modules: Load Data file in as memory, change and update memory, configure new MSS design, etc.
-- ├── README.md        # This file
-- ├── hardware.py      # Less interoperable single I/O socket handlers 
-- ├── OperatingSystem/ # Specialized directory
-- └── assets/          # Optional specialized module directory with init.py to group modules in packages
-  - ├── bloom/         # Ambiguous Design division logic to visualize Control Gate view field
-  - ├── hyphae/        # Input command line abstraction module
-  - └── KatBots/       # Application tool module
+- ├── main.py           # Entry point script: Holds App state and Hosts Control gate & Peripheral Socket participation.
+- ├── MSS_convention.py # Logic module: Load Data file in as memory, change and update memory, configure new MSS design, etc.
+- ├── terminal_ui.py    # Tkinter I/O socket handlers 
+- ├── README.md         # This file
+- ├── docs/             # Specialized directory
+  - ├── [White Paper](docs/Mycite-white_paper.md)
+  - └── [Schema Standardization](docs/discussion.md)
+- └── assets/           # Optional specialized module directory with init.py to group modules in packages
+  - ├── bloom/          # Ambiguous Design division logic to visualize Control Gate view field
+  - ├── hyphae/         # Input command line abstraction module
+  - └── KatBots/        # Application tool module
 
 ---
 
