@@ -11,21 +11,19 @@ Modern automation introduces a tension between control and action: as systems be
 
 - /ProjectFolder
 - ├── README.md             # This file
-- ├── main.py               # Note
-- ├── MSS_convention.py     # Note
-- ├── directive_engine.py   # Note
+- ├── [main.py](main.py)
+- ├── [MSS_convention.py](MSS_convention.py)
+- ├── [directive_engine.py](irective_engine.py)
 - └── sockets/              # Socket Modules
 -   ├── __init__.py         # <-- empty
-  - ├── command_line.py
-  - ├── portal_ui.py
-  - └── window_renderer.py
-- └── assets/           # Optional specialized module directory with init.py to group modules in packages
-  - ├── bloom/          # Ambiguous Design division logic to visualize Control Gate view field
-  - ├── hyphae/         # Input command line abstraction module
-  - └── KatBots/        # Application tool module
-- ├── docs/                 # Specialized directory
-  - ├── [White Paper](docs/Mycite-white_paper.md)
-  - └── [Schema Standardization](docs/discussion.md)
+  - ├── [command_line.py](command_line.py)
+  - ├── [portal_ui.py](portal_ui.py)
+  - └── [window_renderer.py](window_renderer.py)
+- ├── docs/
+  - ├── [White Paper](docs/main.tex)
+  - ├── [Build Text](docs/README.txt)
+  - ├── [Refferences](docs/ref.bib)
+  - └── [LICENSE](docs/LICENSE.txt)
 
 ---
 
