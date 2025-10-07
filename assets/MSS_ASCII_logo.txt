@@ -1,4 +1,11 @@
-MSS_ASCII_logo(104x38)
+# Copyright 2025 Dylan Montgomery
+# Licensed under the Apache License, Version 2.0 (the "License");
+
+# mycite_project/assets/MSS_ASCII_logo.txt
+# AUTHOR:   Dylan Montgomery
+# MODIFIED:	2025-10-06
+# VERSION:	10.02.05
+# PURPOSE:  MSS ASCII Logo ~ 104x38
  ______________________________________________________________________________________________________
 |                                             @@@@@@@@@@@@@                                            |
 |                                   @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@                                 |
