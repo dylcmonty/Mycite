@@ -14,7 +14,7 @@ Modern automation introduces a tension between control and action: as systems be
 - ├── [main.py](main.py)
 - ├── [MSS_convention.py](MSS_convention.py)
 - ├── [directive_engine.py](irective_engine.py)
-- └── sockets/              # Socket Modules
+- └── sockets/
 -   ├── __init__.py         # <-- empty
   - ├── [command_line.py](command_line.py)
   - ├── [portal_ui.py](portal_ui.py)
