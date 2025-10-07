@@ -20,10 +20,12 @@ Modern automation introduces a tension between control and action: as systems be
   - ├── [portal_ui.py](portal_ui.py)
   - └── [window_renderer.py](window_renderer.py)
 - ├── docs/
-  - ├── [White Paper](docs/main.tex)
-  - ├── [Build Text](docs/README.txt)
-  - ├── [Refferences](docs/ref.bib)
-  - └── [LICENSE](docs/LICENSE.txt)
+  - ├── [LICENSE](docs/LICENSE.txt)
+  - ├── [White Paper](docs/Mycite_white_paper.md)
+  - └── Arxiv/
+    - ├── [Arxiv Submission](docs/Arxiv/main.tex)
+    - ├── [Build Text](docs/Arxiv/README.txt)
+    - ├── [Refferences](docs/Arxiv/ref.bib)
 
 ---
 
