@@ -85,10 +85,8 @@ In this way, whether software is made to operate as a computer directed process 
 
 Additionally this can also be used to deepen the understanding an AI’s Neural network has about a singular topic and its relation to other ideas.
 
-\begin{quote}
-Some people can read *War and Peace* and come away thinking it is a simple adventure story... Others can read the ingredients on a chewing gum wrapper and unlock the secrets of the universe. 
+"Some people can read *War and Peace* and come away thinking it is a simple adventure story... Others can read the ingredients on a chewing gum wrapper and unlock the secrets of the universe. 
 \hfill*Lex Luthor in the 1978 movie \textit{Superman*}
-\end{quote}
 
 # Agricultural Market Microstructure
 
