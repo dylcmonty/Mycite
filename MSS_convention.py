@@ -3,8 +3,8 @@
 
 # mycite_project/MSS_convention.py
 # AUTHOR:   Dylan Montgomery
-# MODIFIED:	2025-10-07
-# VERSION:	10.02.05
+# MODIFIED:	2025-10-14
+# VERSION:	10.03.07
 # PURPOSE:  HERE
 
 class DnmcDtm:
@@ -15,6 +15,11 @@ class DnmcDtm:
         self.reference = a
         self.magnitude = b
         self.id = [self.layer, self.group, self.iteration]
+        self.mbrObjs = []
+    
+    def ui_handle(self, mbrs):
+        for mbr in mbrs
+            self.mbrObjs.append(flmnt_ssid[mbrs[mbr]])
 
 def bitInt(bits: list[int]) -> int:
     v = 0
