@@ -9,16 +9,15 @@ Modern automation introduces a tension between control and action: as systems be
 
 ## Project Layout
 
-- /ProjectFolder
-- ├── README.md             # This file
+- /Mycite                  # <-- project folder
+- ├── README.md            # <-- this file
 - ├── [main.py](main.py)
 - ├── [MSS_convention.py](MSS_convention.py)
 - ├── [directive_engine.py](irective_engine.py)
 - └── sockets/
-  - ├── __init__.py         # <-- empty
+  - ├── __init__.py        # <-- empty
   - ├── [command_line.py](command_line.py)
-  - ├── [portal_ui.py](portal_ui.py)
-  - └── [window_renderer.py](window_renderer.py)
+  - └── [portal_ui.py](portal_ui.py)
 - ├── docs/
   - ├── [LICENSE](docs/LICENSE.txt)
   - ├── [White Paper](docs/Mycite_white_paper.md)
@@ -26,8 +25,17 @@ Modern automation introduces a tension between control and action: as systems be
     - ├── [Arxiv Submission](docs/Arxiv/main.tex)
     - ├── [Build Text](docs/Arxiv/README.txt)
     - ├── [Refferences](docs/Arxiv/ref.bib)
+- ├── assets/
+  - ├── [Mycite ASCII art](assets/MSS_ASCII_logo.txt)
+  - └── imgs/
+    - ├── [Splash Screen](assets/imgs/view0.PNG)
+    - ├── [Home Screen](assets/imgs/view1.PNG)
+    - ├── [Confguration Page](assets/imgs/view2.PNG)
+    - ├── [Local System Page](assets/imgs/view3.PNG)
+    - └── [Network Page](assets/imgs/view4.PNG)
 
 ---
+
 
 ## Core Components
 
@@ -41,44 +49,32 @@ Implements the **Mycelium Schema Standardization (MSS)**:
 ### `main.py`
 Manages live system execution via `AppState`:
 - Holds active MSS system state (`mss_systm`)
-- Buffers asynchronous input from HID, network, and peripherals
-- Provides enqueue/dequeue mechanisms with flags
 - Runs the `main_loop`, which isolates HID input when present, otherwise checks network and peripheral buffers
 - Serves as the orchestration layer between MSS state and user/system interaction
 
-### `terminal_ui.py`
+### `portal_ui.py`
 Implements the **Tkinter UI layer**:
 - Renders a responsive window (“MSS Control Gate”)
 - Provides a bottom command bar for text input
-- Handles `/ENTER COMMAND` and quit (`q`) commands
-- Dynamically resizes and redraws interface tiles
-- Acts as the user’s visual and command interface to the MSS system
 
 ---
 
 ## How It Works
 1. `MSS_convention.py` loads and structures binary data from `world.bin` into MSS indices and SSID layers.  
 2. `main.py` initializes `AppState`, creates buffers, and manages the main execution loop.  
-3. As inputs arrive (HID, NET, PERI), they are queued into buffers and dispatched to directives or daemons.  
-4. `terminal_ui.py` provides a graphical entry point for user input, rendering state and allowing text commands.  
+3. As inputs arrive (HID, NET, PERI), they are queued into buffers and dispatched to a DirectiveEngine method.  
 
 ---
 
 ## Background Concepts (for reference)
 - **MSS (Mycelium Schema Standardization):** Base model for storing and interpreting data in extensible, domain-agnostic form.  
 - **SSID Layering:** Semantic frames that define scope boundaries in which references are meaningful, enabling modular reuse and logical extensibility.  
-- **Rieman-Zeckendorf Notation (RZN):** A method for encoding values in a canonical, retroindeterministic format that supports layered, lossless integer addressing.  
-
-These theoretical models inform the current prototype but are now directly embedded in `MSS_convention.py` instead of separate modules.
+- **Hanuš Model:** MORE HERE.  
 
 ---
 
 ## Development Roadmap
-- Flesh out peripheral processes (HID, network, peripheral handlers)  
-- Expand intention handling logic inside `AppState`  
-- Connect UI input to state directives  
-- Add logging and diagnostics  
-- Implement modular plugin architecture for future extensions  
+- HERE
 
 ---
 
@@ -281,8 +277,6 @@ These theoretical models inform the current prototype but are now directly embed
 
 Built and authored by Dylan Montgomery
 
-MODIFIED:	2025-10-07
-
-VERSION:	10.02.05
-
+MODIFIED:	2025-10-14
+VERSION:	10.03.07
 STATUS:     Active prototyping and architectural refinement
