@@ -5,7 +5,7 @@ mycite_project/assets/MSS_ASCII_logo.txt
 AUTHOR:   Dylan Montgomery
 MODIFIED:	2025-10-06
 VERSION:	10.02.05
-PURPOSE:  MSS ASCII Logo ~ 104x38
+PURPOSE:  MSS ASCII Logo ~ 104x38 (Ignore this file completly, as it is extrenuouse and unrelated to the project)
  ______________________________________________________________________________________________________
 |                                             @@@@@@@@@@@@@                                            |
 |                                   @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@                                 |
