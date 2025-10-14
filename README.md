@@ -9,13 +9,13 @@ Modern automation introduces a tension between control and action: as systems be
 
 ## Project Layout
 
-- /Mycite                  # <-- project folder
-- ├── README.md            # <-- this file
+- /Mycite                                              # <-- project folder
+- ├── README.md                                        # <-- this file
 - ├── [main.py](main.py)
 - ├── [MSS_convention.py](MSS_convention.py)
 - ├── [directive_engine.py](irective_engine.py)
 - └── sockets/
-  - ├── __init__.py        # <-- empty
+  - ├── __init__.py                                    # <-- empty
   - ├── [command_line.py](command_line.py)
   - └── [portal_ui.py](portal_ui.py)
 - ├── docs/
@@ -26,7 +26,7 @@ Modern automation introduces a tension between control and action: as systems be
     - ├── [Build Text](docs/Arxiv/README.txt)
     - ├── [Refferences](docs/Arxiv/ref.bib)
 - ├── assets/
-  - ├── [Mycite ASCII art](assets/MSS_ASCII_logo.txt)
+  - ├── [Mycite ASCII art](assets/MSS_ASCII_logo.txt)  # <-- Ignore Completely
   - └── imgs/
     - ├── [Splash Screen](assets/imgs/view0.PNG)
     - ├── [Home Screen](assets/imgs/view1.PNG)
