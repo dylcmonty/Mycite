@@ -13,41 +13,67 @@
 
 # mycite_project/main.py
 # AUTHOR:   Dylan Montgomery
-# MODIFIED:	2025-10-07
-# VERSION:	10.02.05
+# MODIFIED:	2025-10-14
+# VERSION:	10.03.07
 # PURPOSE:  HERE
 
 import threading
-import queue
 import time
 from MSS_convention import MSS
+from directive_engine import DirectiveEngine
 from sockets.portal_ui import Portal
-from directive_engine import Director
 
 class AppState:
-    def __init__(self):
-        self.mss_systm = MSS()
-        
+    def __init__(self):      
         self.running = True
+        
+        self.mss_systm = MSS() if 'MSS' in globals() and MSS else None
+        if self.mss_systm:
+            try:
+                self.mss_systm.boot()
+                self.mss_systm.boot_load()
+                self.objects = getattr(self.mss_systm, 'flmnt_ssid', None)
+                self.obj_tree = getattr(self.mss_systm, 'self.ssid_g', None)
+            except Exception:
+                self.objects = None
+        else:
+            self.objects = None
+
         self.hid_flag, self.net_flag, self.pri_flag = False
 
-        self.hid_buffer, self.net_buffer, self.pri_buffer: list[tuple[bytes, datetime]] = []
+        self.hid_buffer, self.net_buffer, self.pri_buffer: list[bytes] = []
         
-        self.mss_systm.boot()
-        self.mss_systm.boot_load()
-        self.objects = self.mss_systm.flmnt_ssid
+        if getattr(self.app, "view_dirty", False) or cdzm_changed:
+            self._raise_from_state()
+            self.app.view_dirty = False
         
-        self.cdzm = [0]; self.cdfcs = [0]; self.cdslct = [0]; self.tm = None
-        self.obj_tree = self.ssid_g
+        self.cdzm[1] = [0]; 
+        self.cdfcs[1] = [0]; 
+        self.cdslct[1] = [0]; 
+        self.tm = None
         
         self.director = DirectiveEngine(self)
 
-    def enqueue(self, kind: str, datum: bytes, ts: datetime | None = None):
-        buf, flag_name = self._select(kind)
-        was_empty = (len(buf) == 0)
-        buf.append((datum, ts or datetime.utcnow()))
+    def enqueue_hid(self, datum: bytes) -> None:
+        """Append to the HID buffer and raise the HID flag if it was empty."""
+        was_empty = not self.hid_buffer
+        self.hid_buffer.append(datum)
         if was_empty:
-            setattr(self, flag_name, True)   # first item flips flag on
+            self.hid_flag = True
+
+    def enqueue_net(self, datum: bytes) -> None:
+        """Append to the NET buffer and raise the NET flag if it was empty."""
+        was_empty = not self.net_buffer
+        self.net_buffer.append(datum)
+        if was_empty:
+            self.net_flag = True
+
+    def enqueue_pri(self, datum: bytes) -> None:
+        """Append to the PRI buffer and raise the PRI flag if it was empty."""
+        was_empty = not self.pri_buffer
+        self.pri_buffer.append(datum)
+        if was_empty:
+            self.pri_flag = True
     
     def main_loop(self, sleep_s: float = 0.01):
         while self.running:
