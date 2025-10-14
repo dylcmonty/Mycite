@@ -13,11 +13,11 @@ Modern automation introduces a tension between control and action: as systems be
 - ├── README.md                                        # <-- this file
 - ├── [main.py](main.py)
 - ├── [MSS_convention.py](MSS_convention.py)
-- ├── [directive_engine.py](irective_engine.py)
+- ├── [directive_engine.py](directive_engine.py)
 - └── sockets/
   - ├── __init__.py                                    # <-- empty
-  - ├── [command_line.py](command_line.py)
-  - └── [portal_ui.py](portal_ui.py)
+  - ├── [command_line.py](sockets/command_line.py)
+  - └── [portal_ui.py](sockets/portal_ui.py)
 - ├── docs/
   - ├── [LICENSE](docs/LICENSE.txt)
   - ├── [White Paper](docs/Mycite_white_paper.md)
