@@ -43,14 +43,19 @@ class AppState:
 
         self.hid_buffer, self.net_buffer, self.pri_buffer: list[bytes] = []
         
-        if getattr(self.app, "view_dirty", False) or cdzm_changed:
+        if getattr(self.app, "view_dirty", False) or hanus_attention_flag:
             self._raise_from_state()
             self.app.view_dirty = False
+
+        self.hanus_attention = 0;
+        self.hanus_attention_flag = False;
         
-        self.cdzm[1] = [0]; 
-        self.cdfcs[1] = [0]; 
-        self.cdslct[1] = [0]; 
-        self.tm = None
+        self.peruse_flag = False;
+        self.perused_focus = None;        # The current DnmcDtm instance (if any) that the UI is on, of the current DnmcDtm's mbrObjs's index values
+        
+        self.time_flag = False;
+        self.time_sandbox = [];
+        self.time_cursor = [];
         
         self.director = DirectiveEngine(self)
 
@@ -80,7 +85,7 @@ class AppState:
             # HID isolation
             if self.hid_flag:
                 while self.hid_flag and self.running:
-                    self.director.directive(self.hid_buffer.pop(0), self.cdzm, )
+                    self.director.directive(self.hid_buffer.pop(0), self.hanus_attention, )
                 time.sleep(sleep_s)
                 continue  # restart outer loop after HID isolation
             # One-shot checks for NET/PRI
