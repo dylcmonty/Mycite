@@ -5,7 +5,7 @@
 # AUTHOR:   Dylan Montgomery
 # MODIFIED:	2025-10-14
 # VERSION:	10.03.07
-# PURPOSE:  Builds a top‑level window with two areas: a view area and a command‑line area. The command line stays hidden until the user presses Enter on the startup screen. Once shown, it’s permanently docked at the bottom, and each line the user enters is passed back to the application via app_state.enqueue. Meanwhile, the WindowRenderer polls app_state.cdzm and refreshes the view as that value changes.
+# PURPOSE:  Builds a top‑level window with two areas: a view area and a command‑line area. The command line stays hidden until the user presses Enter on the startup screen. Once shown, it’s permanently docked at the bottom, and each line the user enters is passed back to the application via app_state.enqueue.
 
 import tkinter as tk
 from typing import Optional
@@ -87,9 +87,9 @@ class Portal:
 
         # --- Polling (same timing model as your command loop) ---
         self._poll_ms = poll_ms
-        self._last_cdzm = None
+        self._last_hanus_attention = None
         # for “timed like the cmd loop”: also watch the same flags you use
-        self._last_flags = (False, False, False)  # (hid, net, pri)
+        self._last_flags = False
         self.root.after(self._poll_ms, self._tick)
 
         # Initial paint
@@ -97,27 +97,25 @@ class Portal:
 
     # ---- internal helpers ----
     def _raise_from_state(self, force=False):
-        # read cdzm robustly
+        # read hanus_attention robustly
         try:
-            idx = int(getattr(self.app, "cdzm", 0))
+            idx = int(getattr(self.app, "hanus_attention", 0))
         except Exception:
             idx = 0
-        if force or idx != self._last_cdzm:
+        if force or idx != self._last_hanus_attention:
             self.deck.show(idx)
-            self._last_cdzm = idx
+            self._last_hanus_attention = idx
 
     def _tick(self):
         # Observe the same “timing” as your command loop:
         # only react when new work is present or state changed.
-        flags = (getattr(self.app, "hid_flag", False),
-                 getattr(self.app, "net_flag", False),
-                 getattr(self.app, "pri_flag", False))
+        flags = getattr(self.app, "hid_flag", False)
         if flags != self._last_flags:
             # flags changed -> the engine likely just processed something
             self._raise_from_state(force=False)
             self._last_flags = flags
         else:
-            # also catch direct cdzm changes (if engine flips cdzm & view_dirty)
+            # also catch direct hanus_attention changes (if engine flips hanus_attention & view_dirty)
             self._raise_from_state(force=False)
 
         self.root.after(self._poll_ms, self._tick)
