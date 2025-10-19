@@ -3,9 +3,9 @@
 
 # mycite_project/sockets/command_line.py
 # AUTHOR:   Dylan Montgomery
-# MODIFIED:	2025-10-18
-# VERSION:	10.03.09
-# PURPOSE:  A single‑line terminal that inserts a placeholder when idle and calls on_submit on <Return>. This class is self‑contained and doesn't interact with any window‑rendering logic.
+# MODIFIED:	2025-10-19
+# VERSION:	10.04.01
+# PURPOSE:  A single‑line terminal that inserts a placeholder when idle and calls on_submit on <Return>. Current version of the program does not intend to use this.
 
 import tkinter as tk
 
