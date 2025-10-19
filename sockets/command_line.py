@@ -10,7 +10,7 @@
 import tkinter as tk
 
 class CommandLine(tk.Entry):
-    def __init__(self, master, on_submit, idle_text=IDLE_TEXT, **kw):
+    def __init__(self, master, on_submit, **kw):
         super().__init__(master, **kw)
         self.on_submit = on_submit
         self.idle_text = "/ENTER COMMAND OR 'Q' TO QUIT"
