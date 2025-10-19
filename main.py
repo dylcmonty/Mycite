@@ -13,8 +13,8 @@
 
 # mycite_project/main.py
 # AUTHOR:   Dylan Montgomery
-# MODIFIED:	2025-10-18
-# VERSION:	10.03.09
+# MODIFIED:	2025-10-19
+# VERSION:	10.04.01
 # PURPOSE:  HERE
 
 import threading
@@ -41,11 +41,6 @@ class AppState:
         self.mss_systm.boot_load()
         self.objects = getattr(self.mss_systm, 'flmnt_ssid', None)
         self.obj_tree = getattr(self.mss_systm, 'ssid_g', None)
-
-        self.hanus_attention = 0;
-        self.update_flag = False;
-        
-        self.perused_focus = None;
         
         self.time_flag = False;
         self.time_sandbox = [];
