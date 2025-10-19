@@ -21,15 +21,15 @@ buttons_feed: list[list[dict]] = [
         {"path": "assets/imgs/Syst.png",     "size": (292, 292), "pos": (319, 113),  "message": "nav;app:Syst"},
     ],
     [  # View 1
-        {"path": "assets/imgs/HID.png",   "size": (32, 32), "pos": (1094, 674),  "message": "nav;app:HID"},
-        {"path": "assets/imgs/HOD.png",   "size": (32, 32), "pos": (1094, 6),  "message": "nav;app:HOD"},
-        {"path": "assets/imgs/MSN.png",   "size": (32, 32), "pos": (6, 6),  "message": "nav;app:HOD"},
-        {"path": "assets/imgs/workflow.png",   "size": (72, 72), "pos": (5, 141),  "message": "nav;app:workflow"},
-        {"path": "assets/imgs/profile.png",   "size": (72, 72), "pos": (5, 179),  "message": "nav;app:profile"},
-        {"path": "assets/imgs/archive.png",   "size": (72, 72), "pos": (5, 217),  "message": "nav;app:archive"},
-        {"path": "assets/imgs/analysis.png",   "size": (72, 72), "pos": (5, 255),  "message": "nav;app:analysis"},
-        {"path": "assets/imgs/calendar.png",   "size": (72, 72), "pos": (5, 293),  "message": "nav;app:calendar"},
-        {"path": "assets/imgs/meta.png",   "size": (72, 72), "pos": (5, 331),  "message": "nav;app:meta"},
+        {"path": "sockets/imgs/HID.png",   "size": (32, 32), "pos": (1094, 674),  "message": "nav;app:HID"},
+        {"path": "sockets/imgs/HOD.png",   "size": (32, 32), "pos": (1094, 6),  "message": "nav;app:HOD"},
+        {"path": "sockets/imgs/MSN.png",   "size": (32, 32), "pos": (6, 6),  "message": "nav;app:HOD"},
+        {"path": "sockets/imgs/workflow.png",   "size": (72, 72), "pos": (5, 141),  "message": "nav;app:workflow"},
+        {"path": "sockets/imgs/profile.png",   "size": (72, 72), "pos": (5, 179),  "message": "nav;app:profile"},
+        {"path": "sockets/imgs/archive.png",   "size": (72, 72), "pos": (5, 217),  "message": "nav;app:archive"},
+        {"path": "sockets/imgs/analysis.png",   "size": (72, 72), "pos": (5, 255),  "message": "nav;app:analysis"},
+        {"path": "sockets/imgs/calendar.png",   "size": (72, 72), "pos": (5, 293),  "message": "nav;app:calendar"},
+        {"path": "sockets/imgs/meta.png",   "size": (72, 72), "pos": (5, 331),  "message": "nav;app:meta"},
     ],
     [   # View 2
         {"path": "assets/imgs/HID.png",     "size": (45, 45), "pos": (8, 10),  "message": "nav;app:Syst"},
@@ -181,14 +181,12 @@ class ViewFrame(tk.Frame):
 
         # build buttons (if any)
         self.buttons: list[PNGButton] = []
-        self.buttons_feed: list[] = []
             
-        if buttons:
-            for spec in buttons:
-                btn = PNGButton(
-                    buttons_feed[btn] # Where buttons_feed is a list of list of specs to build buttons.
-                )
-                self.buttons.append(btn)
+        for btn in buttons_feed:
+            btn = PNGButton(
+                buttons_feed[btn] # Where buttons_feed is a list of list of specs to build buttons.
+            )
+            self.buttons.append(btn)
 
 class Portal:
     def __init__(self, app_state=None):
