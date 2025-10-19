@@ -25,14 +25,6 @@ Modern automation introduces a tension between control and action: as systems be
     - ├── [Arxiv Submission](docs/Arxiv/main.tex)
     - ├── [Build Text](docs/Arxiv/README.txt)
     - ├── [Refferences](docs/Arxiv/ref.bib)
-- ├── assets/
-  - ├── [Mycite ASCII art](assets/MSS_ASCII_logo.txt)  # <-- Ignore Completely
-  - └── imgs/
-    - ├── [Splash Screen](assets/imgs/view0.PNG)
-    - ├── [Home Screen](assets/imgs/view1.PNG)
-    - ├── [Confguration Page](assets/imgs/view2.PNG)
-    - ├── [Local System Page](assets/imgs/view3.PNG)
-    - └── [Network Page](assets/imgs/view4.PNG)
 
 ---
 
