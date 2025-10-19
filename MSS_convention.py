@@ -3,8 +3,8 @@
 
 # mycite_project/MSS_convention.py
 # AUTHOR:   Dylan Montgomery
-# MODIFIED:	2025-10-14
-# VERSION:	10.03.07
+# MODIFIED:	2025-10-18
+# VERSION:	10.03.09
 # PURPOSE:  HERE
 
 class DnmcDtm:
@@ -15,11 +15,14 @@ class DnmcDtm:
         self.reference = a
         self.magnitude = b
         self.id = [self.layer, self.group, self.iteration]
-        self.mbrObjs = []
+        
+        # Global Variable used optionally
+        self.mbrObjs[][] = []
     
     def ui_handle(self, mbrs):
-        for mbr in mbrs
-            self.mbrObjs.append(flmnt_ssid[mbrs[mbr]])
+        self.mbrObjs[self.app.ui_rows][self.app.ui_cols + 1] = []
+        for mbr in mbrs:
+            self.mbrObjs[0][mbr] = self.app.objects[mbrs[mbr]]
 
 def bitInt(bits: list[int]) -> int:
     v = 0
@@ -49,9 +52,8 @@ class MSS():
         self.index_e = []
         self.index_s = []
         
-        # You asked for nested lists eventually; initialize with empty list.
         self.ssid_g = []
-        # Fix: initialize as a list (previous line indexed by class attr would error)
+        
         self.flmnt_ssid = []
 
     def boot(self):
@@ -67,21 +69,19 @@ class MSS():
         while a_stp < n and self.capture[a_stp] == 1:
             a_stp += 1
         
-        # Address size depends on index_a; compute after setting index_a
         self.index_a = self.capture[:a_stp]
-        adrs_sz = len(self.index_a) - 1  # (kept your approach)
+        adrs_sz = len(self.index_a) - 1
 
         self.index_b = self.capture[(a_stp+1):((2*a_stp)+1)]
         self.index_c = self.capture[((2*a_stp)+1):((3*a_stp)+1)]
-
-        # Boundaries derived from index_c fields (kept your intent)
+        
         d_end = bitInt(self.index_c[:a_stp]) if a_stp > 0 else ((3*a_stp)+1)
         g_end = bitInt(self.index_c[a_stp:(2*a_stp)]) if a_stp > 0 else d_end
         e_beg = bitInt(self.index_c[(2*a_stp):(3*a_stp)]) if a_stp > 0 else g_end
 
         self.index_d = self.capture[((3*a_stp)+1):d_end]
         self.index_g = self.capture[d_end:g_end]
-        self.index_e = self.capture[e_beg:e_beg]  # empty slice as in your code
+        self.index_e = self.capture[e_beg:e_beg]
         self.index_s = self.capture[e_beg:]
 
     @staticmethod
@@ -105,7 +105,6 @@ class MSS():
             stop = min(stop, n)
             index_g_vls.append(bitInt(index_g[prev:stop]))
             prev = stop
-        # final slice to end
         index_g_vls.append(bitInt(index_g[prev:n]))
         return index_g_vls
 
