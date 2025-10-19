@@ -277,6 +277,6 @@ Implements the **Tkinter UI layer**:
 
 Built and authored by Dylan Montgomery
 
-MODIFIED:	2025-10-14
-VERSION:	10.03.07
+MODIFIED:	2025-10-19
+VERSION:	10.04.01
 STATUS:     Active prototyping and architectural refinement
