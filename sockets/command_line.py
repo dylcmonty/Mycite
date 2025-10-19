@@ -3,23 +3,17 @@
 
 # mycite_project/sockets/command_line.py
 # AUTHOR:   Dylan Montgomery
-# MODIFIED:	2025-10-14
-# VERSION:	10.03.07
-# PURPOSE:  A single‑line terminal. It exposes an on_submit callback, inserts a placeholder when idle, and calls on_submit on <Return>. This class is self‑contained and doesn't interact with any window‑rendering logic.
+# MODIFIED:	2025-10-18
+# VERSION:	10.03.09
+# PURPOSE:  A single‑line terminal that inserts a placeholder when idle and calls on_submit on <Return>. This class is self‑contained and doesn't interact with any window‑rendering logic.
 
 import tkinter as tk
 
-IDLE_TEXT = "/ENTER COMMAND OR 'Q' TO QUIT"
-
 class CommandLine(tk.Entry):
-    """
-    Single-line command field with idle placeholder.
-    Calls on_submit(text) on <Return>. If text == 'q', quits the toplevel.
-    """
     def __init__(self, master, on_submit, idle_text=IDLE_TEXT, **kw):
         super().__init__(master, **kw)
         self.on_submit = on_submit
-        self.idle_text = idle_text
+        self.idle_text = "/ENTER COMMAND OR 'Q' TO QUIT"
         self._showing_idle = False
 
         self._fg_idle = "#888888"
