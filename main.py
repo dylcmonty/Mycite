@@ -13,8 +13,8 @@
 
 # mycite_project/main.py
 # AUTHOR:   Dylan Montgomery
-# MODIFIED:	2025-10-14
-# VERSION:	10.03.07
+# MODIFIED:	2025-10-18
+# VERSION:	10.03.09
 # PURPOSE:  HERE
 
 import threading
@@ -27,72 +27,67 @@ class AppState:
     def __init__(self):      
         self.running = True
         
-        self.mss_systm = MSS() if 'MSS' in globals() and MSS else None
-        if self.mss_systm:
-            try:
-                self.mss_systm.boot()
-                self.mss_systm.boot_load()
-                self.objects = getattr(self.mss_systm, 'flmnt_ssid', None)
-                self.obj_tree = getattr(self.mss_systm, 'self.ssid_g', None)
-            except Exception:
-                self.objects = None
-        else:
-            self.objects = None
-
+        self.title = "Mycite"
+        self.ui_cols = 700
+        self.ui_rows = 1100
+        self.poll_ms = 100
+        
         self.hid_flag, self.net_flag, self.pri_flag = False
-
         self.hid_buffer, self.net_buffer, self.pri_buffer: list[bytes] = []
         
-        if getattr(self.app, "view_dirty", False) or hanus_attention_flag:
-            self._raise_from_state()
-            self.app.view_dirty = False
+        self.mss_systm = MSS()
+        
+        self.mss_systm.boot()
+        self.mss_systm.boot_load()
+        self.objects = getattr(self.mss_systm, 'flmnt_ssid', None)
+        self.obj_tree = getattr(self.mss_systm, 'ssid_g', None)
 
         self.hanus_attention = 0;
-        self.hanus_attention_flag = False;
+        self.update_flag = False;
         
-        self.peruse_flag = False;
-        self.perused_focus = None;        # The current DnmcDtm instance (if any) that the UI is on, of the current DnmcDtm's mbrObjs's index values
+        self.perused_focus = None;
         
         self.time_flag = False;
         self.time_sandbox = [];
         self.time_cursor = [];
         
-        self.director = DirectiveEngine(self)
+        self.tkinter_socket = Portal(self)
+        self.hanus = DirectiveEngine(self)
 
     def enqueue_hid(self, datum: bytes) -> None:
-        """Append to the HID buffer and raise the HID flag if it was empty."""
         was_empty = not self.hid_buffer
         self.hid_buffer.append(datum)
-        if was_empty:
-            self.hid_flag = True
+        self.hid_flag = True
 
     def enqueue_net(self, datum: bytes) -> None:
-        """Append to the NET buffer and raise the NET flag if it was empty."""
         was_empty = not self.net_buffer
         self.net_buffer.append(datum)
-        if was_empty:
-            self.net_flag = True
+        self.net_flag = True
 
     def enqueue_pri(self, datum: bytes) -> None:
-        """Append to the PRI buffer and raise the PRI flag if it was empty."""
         was_empty = not self.pri_buffer
         self.pri_buffer.append(datum)
-        if was_empty:
-            self.pri_flag = True
+        self.pri_flag = True
     
     def main_loop(self, sleep_s: float = 0.01):
         while self.running:
             # HID isolation
             if self.hid_flag:
                 while self.hid_flag and self.running:
-                    self.director.directive(self.hid_buffer.pop(0), self.hanus_attention, )
+                    self.hanus.directive(self.hid_buffer.pop(0), self.hanus_attention)
+                    if len(self.hid_buffer) == 0:
+                        self.hid_flag = False
                 time.sleep(sleep_s)
                 continue  # restart outer loop after HID isolation
             # One-shot checks for NET/PRI
             if self.net_flag:
-                self.director.daemon((self.net_buffer.pop(0)), ())
+                self.hanus.daemon((self.net_buffer.pop(0)), ())
+                if len(self.net_buffer) == 0:
+                    self.net_flag = False
             if self.pri_flag:
-                self.director.daemon(((self.pri_buffer.pop(0)), ())
+                self.hanus.daemon(((self.pri_buffer.pop(0)), ())
+                if len(self.net_buffer) == 0:
+                    self.net_flag = False
             time.sleep(sleep_s)
 
 def main():
@@ -102,9 +97,7 @@ def main():
     t = threading.Thread(target=app.main_loop, daemon=True)
     t.start()
     
-    # Start the user interface window on the mainthread
-    ui = Portal(app_state=app, title="Control Gate")
-    ui.start()
+    app.tkinter_socket.start()
 
 if __name__ == '__main__':
     main()
